@@ -212,14 +212,16 @@ export class Canvas {
       }
 
       if (this.sheetCtx.config?.rowhidden?.[r] == null) {
-        renderCtx.fillStyle = "#ffffff";
+        renderCtx.fillStyle =
+          this.sheetCtx.config.rowHeaderBgColor || "#ffffff";
         renderCtx.fillRect(
           0,
           start_r + offsetTop + firstOffset,
           this.sheetCtx.rowHeaderWidth - 1,
           end_r - start_r + 1 + lastOffset - firstOffset
         );
-        renderCtx.fillStyle = "#000000";
+        renderCtx.fillStyle =
+          this.sheetCtx.config.rowHeaderTextColor || "#000000";
 
         // 行标题栏序列号
         renderCtx.save(); // save scale before draw text
@@ -403,14 +405,16 @@ export class Canvas {
       }
 
       if (this.sheetCtx.config?.colhidden?.[c] == null) {
-        renderCtx.fillStyle = "#ffffff";
+        renderCtx.fillStyle =
+          this.sheetCtx.config.colHeaderBgColor || "#ffffff";
         renderCtx.fillRect(
           start_c + offsetLeft - 1,
           0,
           end_c - start_c,
           this.sheetCtx.columnHeaderHeight - 1
         );
-        renderCtx.fillStyle = "#000000";
+        renderCtx.fillStyle =
+          this.sheetCtx.config.colHeaderTextColor || "#000000";
 
         // 列标题栏序列号
         renderCtx.save(); // save scale before draw text

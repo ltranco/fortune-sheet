@@ -104,6 +104,10 @@ export type SheetConfig = {
   customWidth?: Record<string, number>;
   borderInfo?: any[]; // 边框
   authority?: any;
+  rowHeaderBgColor?: string;
+  colHeaderBgColor?: string;
+  rowHeaderTextColor?: string;
+  colHeaderTextColor?: string;
 };
 
 export type Image = {
