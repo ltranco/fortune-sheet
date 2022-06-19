@@ -1,0 +1,13 @@
+import { Context } from "../context";
+import { Settings } from "../settings";
+import { GlobalCache } from "../types";
+export declare function handleGlobalWheel(ctx: Context, e: WheelEvent, cache: GlobalCache, scrollbarX: HTMLDivElement, scrollbarY: HTMLDivElement): void;
+export declare function handleCellAreaMouseDown(ctx: Context, globalCache: GlobalCache, e: MouseEvent, cellInput: HTMLDivElement, container: HTMLDivElement, fxInput: HTMLDivElement): void;
+export declare function handleCellAreaDoubleClick(ctx: Context, globalCache: GlobalCache, settings: Settings, e: MouseEvent, container: HTMLElement): void;
+export declare function handleContextMenu(ctx: Context, settings: Settings, e: MouseEvent, workbookContainer: HTMLDivElement): void;
+export declare function handleOverlayMouseMove(ctx: Context, globalCache: GlobalCache, e: MouseEvent, cellInput: HTMLDivElement, scrollX: HTMLDivElement, scrollY: HTMLDivElement, container: HTMLDivElement): void;
+export declare function handleOverlayMouseUp(ctx: Context, globalCache: GlobalCache, settings: Settings, e: MouseEvent, container: HTMLDivElement): void;
+export declare function handleRowHeaderMouseDown(ctx: Context, globalCache: GlobalCache, e: MouseEvent, container: HTMLDivElement, cellInput: HTMLDivElement, fxInput: HTMLDivElement): void;
+export declare function handleColumnHeaderMouseDown(ctx: Context, globalCache: GlobalCache, e: MouseEvent, container: HTMLElement, cellInput: HTMLDivElement, fxInput: HTMLDivElement): void;
+export declare function handleColSizeHandleMouseDown(ctx: Context, globalCache: GlobalCache, e: MouseEvent, headerContainer: HTMLDivElement, workbookContainer: HTMLDivElement, cellArea: HTMLDivElement): void;
+export declare function handleRowSizeHandleMouseDown(ctx: Context, globalCache: GlobalCache, e: MouseEvent, headerContainer: HTMLDivElement, workbookContainer: HTMLDivElement, cellArea: HTMLDivElement): void;

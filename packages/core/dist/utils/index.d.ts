@@ -1,0 +1,12 @@
+import { Context } from "../context";
+import { Sheet } from "../types";
+export * from "./patch";
+export declare function generateRandomSheetName(file: Sheet[], isPivotTable: boolean, ctx: Context): string;
+export declare function rgbToHex(color: string): string;
+export declare function indexToColumnChar(n: number): string;
+export declare function columnCharToIndex(a: string): number;
+export declare function escapeScriptTag(str: string): string;
+export declare function getSheetIndex(ctx: Context, id: string): number | null;
+export declare function getSheetByIndex(ctx: Context, id: string): Sheet | null;
+export declare function getNowDateTime(format: number): string;
+export declare function replaceHtml(temp: string, dataarry: any): string;
