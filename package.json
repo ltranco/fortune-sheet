@@ -1,10 +1,10 @@
 {
-  "name": "fortune-sheet",
-  "version": "0.1.0",
+  "name": "@ltranco/fortune-sheet",
+  "version": "0.1.1",
   "workspaces": [
     "packages/*"
   ],
-  "repository": "https://github.com/ruilisi/fortune-sheet",
+  "repository": "https://github.com/ltranco/fortune-sheet",
   "license": "MIT",
   "scripts": {
     "dev": "yarn storybook",
