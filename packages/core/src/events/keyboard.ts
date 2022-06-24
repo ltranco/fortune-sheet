@@ -9,6 +9,7 @@ import {
   moveHighlightCell,
   selectAll,
   selectionCache,
+  normalizeSelection,
 } from "../modules/selection";
 import { cancelPaintModel, handleBold } from "../modules/toolbar";
 import { hasPartMC } from "../modules/validation";
@@ -82,6 +83,11 @@ export function handleGlobalEnter(
 
       const row_index = last.row_focus;
       const col_index = last.column_focus;
+
+      if (row_index === 3 && col_index === 3) {
+        alert("NO!");
+        return;
+      }
 
       ctx.luckysheetCellUpdate = [row_index, col_index];
       // luckysheetupdateCell(row_index, col_index, ctx.flowdata);
@@ -374,25 +380,42 @@ function handleShiftWithArrowKey(ctx: Context, e: KeyboardEvent) {
   ) {
     return;
   }
+  */
+
+  console.log(ctx.luckysheet_shiftpositon);
+  console.log(ctx.luckysheet_select_save?.map((x) => `${x.row}-${x.column}`));
+
+  ctx.luckysheet_select_save = [
+    {
+      row: [0, 2],
+      column: [0, 2],
+    },
+  ];
+
+  console.log(ctx.luckysheet_select_save?.map((x) => `${x.row}-${x.column}`));
+
+  normalizeSelection(ctx, ctx.luckysheet_select_save);
+
+  console.log(ctx.luckysheet_select_save?.map((x) => `${x.row}-${x.column}`));
 
   // shift + 方向键 调整选区
-  switch (e.key) {
-    case "ArrowUp":
-      luckysheetMoveHighlightRange("down", -1, "rangeOfSelect");
-      break;
-    case "ArrowDown":
-      luckysheetMoveHighlightRange("down", 1, "rangeOfSelect");
-      break;
-    case "ArrowLeft":
-      luckysheetMoveHighlightRange("right", -1, "rangeOfSelect");
-      break;
-    case "ArrowRight":
-      luckysheetMoveHighlightRange("right", 1, "rangeOfSelect");
-      break;
-    default:
-      break;
-  }
-  */
+  // switch (e.key) {
+  //   case "ArrowUp":
+  //     moveHighlightCell(ctx, "down", -1, "rangeOfSelect");
+  //     break;
+  //   case "ArrowDown":
+  //     moveHighlightCell(ctx, "down", 1, "rangeOfSelect");
+  //     break;
+  //   case "ArrowLeft":
+  //     moveHighlightCell(ctx, "right", -1, "rangeOfSelect");
+  //     break;
+  //   case "ArrowRight":
+  //     moveHighlightCell(ctx, "right", 1, "rangeOfSelect");
+  //     break;
+  //   default:
+  //     break;
+  // }
+
   e.preventDefault();
 }
 

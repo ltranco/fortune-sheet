@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
+    "incremental": true,
+    "outDir": "dist",
+
     "target": "es5",
     "module": "es2015",
     "declaration": true,
@@ -19,7 +22,7 @@
       "@fortune-sheet/react": ["packages/react/src"]
     }
   },
-  "include": ["packages/*/src", "stories/"],
+  "include": ["packages/*/src", "stories/", "dist"],
   "exclude": [
     "node_modules",
     "packages/*/lib",

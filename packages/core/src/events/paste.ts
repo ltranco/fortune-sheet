@@ -1382,6 +1382,16 @@ export function handlePaste(ctx: Context, e: ClipboardEvent) {
     return;
   }
 
+  const violating = ctx.luckysheet_select_save?.find(
+    (item) => item.row.includes(3) && item.column.includes(3)
+  );
+  console.log(ctx.luckysheet_select_save?.map((x) => `${x.row} ${x.column}`));
+  console.log(violating);
+  if (violating) {
+    alert("NO!");
+    return;
+  }
+
   if (selectionCache.isPasteAction) {
     ctx.luckysheetCellUpdate = [];
     // $("#luckysheet-rich-text-editor").blur();
@@ -1436,6 +1446,8 @@ export function handlePaste(ctx: Context, e: ClipboardEvent) {
       const copy_r2 = ctx.luckysheet_copy_save.copyRange[0].row[1];
       const copy_c1 = ctx.luckysheet_copy_save.copyRange[0].column[0];
       const copy_c2 = ctx.luckysheet_copy_save.copyRange[0].column[1];
+
+      console.log(ctx);
 
       const copy_index = ctx.luckysheet_copy_save.dataSheetId;
 

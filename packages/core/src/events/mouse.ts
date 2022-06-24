@@ -1223,6 +1223,11 @@ export function handleCellAreaDoubleClick(
   const col_location = colLocation(x, ctx.visibledatacolumn);
   let col_index = col_location[2];
 
+  if (row_index === 3 && col_index === 3) {
+    alert("NO!");
+    return;
+  }
+
   const margeset = mergeBorder(ctx, flowdata, row_index, col_index);
   if (margeset) {
     [, , row_index] = margeset.row;
