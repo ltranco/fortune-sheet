@@ -12,7 +12,7 @@ import {
   valueShowEs,
   updateCell,
   createRangeHightlight,
-} from "@fortune-sheet/core";
+} from "ltranco-fortune-sheet-core";
 import React, {
   useContext,
   useEffect,

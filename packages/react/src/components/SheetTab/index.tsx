@@ -1,6 +1,6 @@
 import _ from "lodash";
 import React, { useContext, useRef } from "react";
-import { updateCell, addSheet } from "@fortune-sheet/core";
+import { updateCell, addSheet } from "ltranco-fortune-sheet-core";
 import WorkbookContext from "../../context";
 import SVGIcon from "../SVGIcon";
 import "./index.css";

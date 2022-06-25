@@ -1,6 +1,6 @@
 {
-  "name": "@fortune-sheet/core",
-  "version": "0.2.5",
+  "name": "ltranco-fortune-sheet-core",
+  "version": "0.2.6",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "typings": "dist/index.d.ts",
@@ -10,7 +10,7 @@
   "repository": "https://github.com/ruilisi/fortune-sheet",
   "license": "MIT",
   "dependencies": {
-    "@fortune-sheet/formula-parser": "^0.2.5",
+    "ltranco-fortune-sheet-formula-parser": "^0.2.6",
     "dayjs": "^1.11.0",
     "immer": "^9.0.12",
     "lodash": "^4.17.21",
@@ -38,5 +38,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "5e0b858f114ffad8d4357930572cef8bf5d5e489"
+  "gitHead": "aea16940758888c8019d29524a9c87941f5bb792"
 }

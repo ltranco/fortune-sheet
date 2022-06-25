@@ -2,7 +2,6 @@
   "compilerOptions": {
     "incremental": true,
     "outDir": "dist",
-
     "target": "es5",
     "module": "es2015",
     "declaration": true,
@@ -18,8 +17,11 @@
     "lib": ["es5", "dom"],
     "baseUrl": "./",
     "paths": {
-      "@fortune-sheet/core": ["packages/core/src"],
-      "@fortune-sheet/react": ["packages/react/src"]
+      "ltranco-fortune-sheet-core/*": ["packages/core/src/*"],
+      "ltranco-fortune-sheet-react/*": ["packages/react/src/*"],
+      "ltranco-fortune-sheet-formula-parser/*": [
+        "packages/formula-parser/src/*"
+      ]
     }
   },
   "include": ["packages/*/src", "stories/", "dist"],

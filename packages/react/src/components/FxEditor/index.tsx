@@ -10,7 +10,7 @@ import {
   handleFormulaInput,
   rangeHightlightselected,
   valueShowEs,
-} from "@fortune-sheet/core";
+} from "ltranco-fortune-sheet-core";
 import React, {
   useContext,
   useState,

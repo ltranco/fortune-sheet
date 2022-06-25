@@ -1,4 +1,4 @@
-import { Sheet, editSheetName } from "@fortune-sheet/core";
+import { Sheet, editSheetName } from "ltranco-fortune-sheet-core";
 import _ from "lodash";
 import React, {
   useContext,

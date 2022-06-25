@@ -13,7 +13,7 @@ import {
   Presence,
   Settings,
   SingleRange,
-} from "@fortune-sheet/core";
+} from "ltranco-fortune-sheet-core";
 import produce, { applyPatches } from "immer";
 import _ from "lodash";
 import { SetContextOptions } from "../../context";

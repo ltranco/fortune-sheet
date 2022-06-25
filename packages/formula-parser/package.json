@@ -1,6 +1,6 @@
 {
-  "name": "@fortune-sheet/formula-parser",
-  "version": "0.2.5",
+  "name": "ltranco-fortune-sheet-formula-parser",
+  "version": "0.2.6",
   "description": "Formula parser",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -69,5 +69,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "5e0b858f114ffad8d4357930572cef8bf5d5e489"
+  "gitHead": "aea16940758888c8019d29524a9c87941f5bb792"
 }

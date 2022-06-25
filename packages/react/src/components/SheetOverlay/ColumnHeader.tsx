@@ -6,7 +6,7 @@ import {
   handleColSizeHandleMouseDown,
   handleColumnHeaderMouseDown,
   handleContextMenu,
-} from "@fortune-sheet/core";
+} from "ltranco-fortune-sheet-core";
 import _ from "lodash";
 import React, {
   useContext,

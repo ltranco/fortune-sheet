@@ -26,7 +26,7 @@ import {
   handleOverlayTouchMove,
   handleOverlayTouchStart,
   createDropCellRange,
-} from "@fortune-sheet/core";
+} from "ltranco-fortune-sheet-core";
 import _ from "lodash";
 import WorkbookContext from "../../context";
 import ColumnHeader from "./ColumnHeader";

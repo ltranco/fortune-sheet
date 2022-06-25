@@ -15,7 +15,7 @@ import {
   Op,
   inverseRowColOptions,
   ensureSheetIndex,
-} from "@fortune-sheet/core";
+} from "ltranco-fortune-sheet-core";
 import React, {
   useMemo,
   useState,

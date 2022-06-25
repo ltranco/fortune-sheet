@@ -15,6 +15,13 @@
 </div>
 
 
+## FORKED
+- Couldn't figure out how to publish the package as a monorepo, so the work flow now should be:
+  - Make changes as needed
+  - Update the version in ALL package.json files
+  - Run `yarn run build` in each folder
+  - Run `npm publish` in each folder
+
 English | [简体中文](./README-zh.md)
 
 ## Purpose

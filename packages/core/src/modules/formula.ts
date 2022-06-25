@@ -1,6 +1,6 @@
 import _ from "lodash";
 // @ts-ignore
-import { Parser } from "@fortune-sheet/formula-parser";
+import { Parser } from "ltranco-fortune-sheet-formula-parser";
 import type { Cell, Rect, Selection } from "../types";
 import { Context, getFlowdata } from "../context";
 import {

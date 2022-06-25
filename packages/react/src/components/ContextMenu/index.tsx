@@ -4,7 +4,7 @@ import {
   handlePasteByClick,
   deleteRowCol,
   insertRowCol,
-} from "@fortune-sheet/core";
+} from "ltranco-fortune-sheet-core";
 import _ from "lodash";
 import React, { useContext, useRef, useLayoutEffect, useCallback } from "react";
 import WorkbookContext, { SetContextOptions } from "../../context";

@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { Workbook, WorkbookInstance } from "@fortune-sheet/react";
+import { Workbook, WorkbookInstance } from "ltranco-fortune-sheet-react";
 
 export default {
   component: Workbook,

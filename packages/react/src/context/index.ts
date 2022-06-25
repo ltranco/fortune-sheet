@@ -6,7 +6,7 @@ import {
   Settings,
   GlobalCache,
   PatchOptions,
-} from "@fortune-sheet/core";
+} from "ltranco-fortune-sheet-core";
 
 type RefValues = {
   globalCache: GlobalCache;
