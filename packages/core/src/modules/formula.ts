@@ -2471,9 +2471,6 @@ export function handleFormulaInput(
   //   // 此模式下禁用公式栏
   //   return;
   // }
-  if (!$copyTo) {
-    return;
-  }
 
   let value1 = $editor.innerHTML;
   const value1txt = $editor.innerText;
@@ -2526,13 +2523,19 @@ export function handleFormulaInput(
       createRangeHightlight(ctx, value);
     }
 
-    $copyTo.innerHTML = value;
+    if ($copyTo) {
+      $copyTo.innerHTML = value;
+    }
+
     // rangestart = false;
     // rangedrag_column_start = false;
     // rangedrag_row_start = false;
 
     rangeHightlightselected(ctx, $editor);
   } else if (value1txt.substring(0, 1) !== "=") {
+    if (!$copyTo) {
+      return;
+    }
     if ($copyTo.id === "luckysheet-rich-text-editor") {
       if (!$copyTo.innerHTML.startsWith("<span")) {
         $copyTo.innerHTML = value;

@@ -350,7 +350,6 @@ const Workbook = React.forwardRef<WorkbookInstance, Settings & AdditionalProps>(
 
     const onPaste = useCallback(
       (e: ClipboardEvent) => {
-        console.log("on paste event");
         // deal with multi instance case, only the focused sheet handles the paste
         // if (cellInput.current === document.activeElement) {
         setContextWithProduce((draftCtx) => {

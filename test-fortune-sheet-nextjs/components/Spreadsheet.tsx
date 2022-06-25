@@ -94,6 +94,22 @@ const Spreadsheet = () => {
     }
   }
 
+  let celldata = [
+    { r: 0, c: 0, v: { ...COMMON_CELL_STYLE } },
+    ...COLS,
+    ...ROWS,
+    ...normalCells,
+  ];
+
+  celldata = celldata.map(cd => {
+    const {r, c, v} = cd;
+    if (r >= 0 && r <= 1000 && c >= 1 && c <= 3) {
+      return {...cd, v: {...v, bg: 'cyan'}};
+    } else {
+      return { ...cd };
+    }
+  });
+
   return (
     <div
         style={{
@@ -117,12 +133,7 @@ const Spreadsheet = () => {
           data={[
             {
               name: "Sheet1",
-              celldata: [
-                { r: 0, c: 0, v: { ...COMMON_CELL_STYLE } },
-                ...COLS,
-                ...ROWS,
-                ...normalCells,
-              ],
+              celldata,
               config: {
                 columnlen: {
                   0: 120,
@@ -198,6 +209,20 @@ const Spreadsheet = () => {
                 rowHeaderTextColor: secondaryTextColor,
                 rowHeaderBorderColor: colors["border"],
                 defaultCellBgColor,
+                disabledCells: [
+                    {
+                        row: [0, 0], 
+                        column: [0, 1000]
+                    },
+                    {
+                        row: [0, 1000], 
+                        column: [0, 0]
+                    },
+                    {
+                        row: [1, 1000], 
+                        column: [1, 3]
+                    },
+                ]
               },
               showGridLines: false,
               defaultRowHeight: 30,
@@ -222,15 +247,12 @@ const Spreadsheet = () => {
               ctx: CanvasRenderingContext2D
             ) => false,
             beforeUpdateCell: (r: number, c: number, value: any) => {
-              console.log(`before update ${value}`);
               if (r === 0 || c === 0) {
                 return false;
               }
               return true;
             },
             beforePaste: (selections, content) => {
-                console.log('wtf');
-              console.log(content);
               const isFromExcel = content.startsWith(
                 '<html xmlns:v="urn:schemas-microsoft-com:vml"'
               );
@@ -243,7 +265,6 @@ const Spreadsheet = () => {
                 }
               }
 
-              console.log(content);
               const tableNode = htmlToElement(`${content}`);
               const trNodes = tableNode.querySelectorAll("tr");
               const rows = Array.from(trNodes).map((trNode) => {

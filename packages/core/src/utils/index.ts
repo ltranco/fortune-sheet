@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { Context } from "../context";
 import { locale } from "../locale";
-import { Sheet } from "../types";
+import { Sheet, Range, Selection } from "../types";
 
 export * from "./patch";
 
@@ -157,4 +157,60 @@ export function replaceHtml(temp: string, dataarry: any) {
     }
     return s1;
   });
+}
+
+export function isCellInRange(
+  rowIndex: number,
+  colIndex: number,
+  inputRange: Range
+): boolean {
+  return (
+    inputRange.find((range) => {
+      const [row1, row2] = range.row;
+      const [col1, col2] = range.column;
+
+      return (
+        rowIndex >= row1 &&
+        rowIndex <= row2 &&
+        colIndex >= col1 &&
+        colIndex <= col2
+      );
+    }) !== undefined
+  );
+}
+
+export function referencedSelectionFromKeyboardInContext(
+  ctx: Context
+): Selection {
+  const last =
+    ctx.luckysheet_select_save![ctx.luckysheet_select_save!.length - 1];
+
+  return last;
+}
+
+export function referencedCellFromKeyboardInContext(
+  ctx: Context
+): (number | undefined)[] {
+  const last = referencedSelectionFromKeyboardInContext(ctx);
+  const row_index = last.row_focus;
+  const col_index = last.column_focus;
+  return [row_index, col_index];
+}
+
+export function rectanglesIntersect(
+  minAx: number,
+  minAy: number,
+  maxAx: number,
+  maxAy: number,
+  minBx: number,
+  minBy: number,
+  maxBx: number,
+  maxBy: number
+) {
+  const aLeftOfB = maxAx < minBx;
+  const aRightOfB = minAx > maxBx;
+  const aAboveB = minAy > maxBy;
+  const aBelowB = maxAy < minBy;
+
+  return !(aLeftOfB || aRightOfB || aAboveB || aBelowB);
 }

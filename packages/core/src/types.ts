@@ -1,6 +1,9 @@
 import { Patch as ImmerPatch } from "immer";
 import { PatchOptions } from "./utils";
 
+export type SingleRange = { row: number[]; column: number[] };
+export type Range = SingleRange[];
+
 export type Op = {
   op:
     | "replace"
@@ -113,6 +116,7 @@ export type SheetConfig = {
   rowHeaderBorderColor?: string;
   colHeaderBorderColor?: string;
   defaultCellBgColor?: string;
+  disabledCells?: Range;
 };
 
 export type Image = {
@@ -224,6 +228,3 @@ export type GlobalCache = {
     scrollLeft?: number;
   };
 };
-
-export type SingleRange = { row: number[]; column: number[] };
-export type Range = SingleRange[];

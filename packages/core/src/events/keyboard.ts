@@ -14,7 +14,12 @@ import {
 import { cancelPaintModel, handleBold } from "../modules/toolbar";
 import { hasPartMC } from "../modules/validation";
 import { GlobalCache } from "../types";
-import { getNowDateTime } from "../utils";
+import {
+  getNowDateTime,
+  isCellInRange,
+  referencedCellFromKeyboardInContext,
+  referencedSelectionFromKeyboardInContext,
+} from "../utils";
 import { handleCopy } from "./copy";
 
 export function handleGlobalEnter(
@@ -84,11 +89,6 @@ export function handleGlobalEnter(
       const row_index = last.row_focus;
       const col_index = last.column_focus;
 
-      if (row_index === 3 && col_index === 3) {
-        alert("NO!");
-        return;
-      }
-
       ctx.luckysheetCellUpdate = [row_index, col_index];
       // luckysheetupdateCell(row_index, col_index, ctx.flowdata);
       e.preventDefault();
@@ -104,24 +104,54 @@ function handleBatchSelectionWithArrowKey(ctx: Context, e: KeyboardEvent) {
   ) {
     return;
   }
+
+  const last = referencedSelectionFromKeyboardInContext(ctx);
+  const [r1, r2] = last.row;
+  const [c1, c2] = last.column;
+  const rowIndex = last.row_focus;
+  const colIndex = last.column_focus;
+
+  const rowCount = ctx.luckysheetfile[0]?.row || 0;
+  const colCount = ctx.luckysheetfile[0]?.column || 0;
+
+  if (rowIndex === undefined || colIndex === undefined) {
+    return;
+  }
+
+  let newStartingRow = r1;
+  let newStartingCol = c1;
+  let newEndingRow = r2;
+  let newEndingCol = c2;
+
   switch (e.key) {
-    /*
     case "ArrowUp":
-      luckysheetMoveHighlightRange2("up", "rangeOfSelect");
+      newStartingRow = 0;
       break;
     case "ArrowDown":
-      luckysheetMoveHighlightRange2("down", "rangeOfSelect");
+      newEndingRow = rowCount;
       break;
     case "ArrowLeft":
-      luckysheetMoveHighlightRange2("left", "rangeOfSelect");
+      newStartingCol = 0;
       break;
     case "ArrowRight":
-      luckysheetMoveHighlightRange2("right", "rangeOfSelect");
+      newEndingCol = colCount;
       break;
-  */
     default:
       break;
   }
+
+  // ctx.luckysheet_select_save = [
+  //   {
+  //     row: [newStartingRow, newEndingRow],
+  //     column: [newStartingCol, newEndingCol],
+  //     column_focus: newEndingCol,
+  //     row_focus: newEndingRow,
+  //   },
+  // ];
+
+  // normalizeSelection(ctx, ctx.luckysheet_select_save);
+
+  e.preventDefault();
 }
 
 export function handleWithCtrlOrMetaKey(
@@ -382,39 +412,52 @@ function handleShiftWithArrowKey(ctx: Context, e: KeyboardEvent) {
   }
   */
 
-  console.log(ctx.luckysheet_shiftpositon);
-  console.log(ctx.luckysheet_select_save?.map((x) => `${x.row}-${x.column}`));
+  const last = referencedSelectionFromKeyboardInContext(ctx);
+  const [r1, r2] = last.row;
+  const [c1, c2] = last.column;
+  const rowIndex = last.row_focus;
+  const colIndex = last.column_focus;
+
+  if (rowIndex === undefined || colIndex === undefined) {
+    return;
+  }
+
+  let newStartingRow = r1;
+  let newStartingCol = c1;
+  let newEndingRow = r2;
+  let newEndingCol = c2;
+
+  // shift + 方向键 调整选区
+  switch (e.key) {
+    case "ArrowUp":
+      newStartingRow -= 1;
+      break;
+    case "ArrowDown":
+      newEndingRow += 1;
+      break;
+    case "ArrowLeft":
+      newStartingCol -= 1;
+      break;
+    case "ArrowRight":
+      newEndingCol += 1;
+      break;
+    default:
+      break;
+  }
+
+  newStartingRow = Math.max(0, newStartingRow);
+  newStartingCol = Math.max(0, newStartingCol);
 
   ctx.luckysheet_select_save = [
     {
-      row: [0, 2],
-      column: [0, 2],
+      row: [newStartingRow, newEndingRow],
+      column: [newStartingCol, newEndingCol],
+      column_focus: newEndingCol,
+      row_focus: newEndingRow,
     },
   ];
 
-  console.log(ctx.luckysheet_select_save?.map((x) => `${x.row}-${x.column}`));
-
   normalizeSelection(ctx, ctx.luckysheet_select_save);
-
-  console.log(ctx.luckysheet_select_save?.map((x) => `${x.row}-${x.column}`));
-
-  // shift + 方向键 调整选区
-  // switch (e.key) {
-  //   case "ArrowUp":
-  //     moveHighlightCell(ctx, "down", -1, "rangeOfSelect");
-  //     break;
-  //   case "ArrowDown":
-  //     moveHighlightCell(ctx, "down", 1, "rangeOfSelect");
-  //     break;
-  //   case "ArrowLeft":
-  //     moveHighlightCell(ctx, "right", -1, "rangeOfSelect");
-  //     break;
-  //   case "ArrowRight":
-  //     moveHighlightCell(ctx, "right", 1, "rangeOfSelect");
-  //     break;
-  //   default:
-  //     break;
-  // }
 
   e.preventDefault();
 }
@@ -605,6 +648,18 @@ export function handleGlobalKeyDown(
       // selectHightlightShow();
     } else if (kstr === "Delete" || kstr === "Backspace") {
       if (!ctx.allowEdit) return;
+
+      const [rowIdx, colIdx] = referencedCellFromKeyboardInContext(ctx);
+      if (rowIdx !== undefined && colIdx !== undefined) {
+        const isReferencedCellOverlappingWithDisabledRange = ctx.config
+          .disabledCells
+          ? isCellInRange(rowIdx, colIdx, ctx.config.disabledCells)
+          : false;
+        if (isReferencedCellOverlappingWithDisabledRange) {
+          return;
+        }
+      }
+
       if (ctx.activeImg?.id != null) {
         removeActiveImage(ctx);
       } else {

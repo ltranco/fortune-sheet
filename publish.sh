@@ -1,1 +1,1 @@
- cd packages/core && npm publish && cd ../formula-parser && npm publish && cd ../react && npm publish && cd ..
+cd packages/core && npm publish && cd ../formula-parser && npm publish && cd ../react && npm publish && cd ..

@@ -47,7 +47,7 @@ import {
 } from "../modules/selection";
 import { Settings } from "../settings";
 import { GlobalCache } from "../types";
-import { getSheetIndex } from "../utils";
+import { getSheetIndex, isCellInRange } from "../utils";
 import { onDropCellSelectEnd, onDropCellSelect } from "../modules/dropCell";
 
 let mouseWheelUniqueTimeout: ReturnType<typeof setTimeout>;
@@ -1223,8 +1223,11 @@ export function handleCellAreaDoubleClick(
   const col_location = colLocation(x, ctx.visibledatacolumn);
   let col_index = col_location[2];
 
-  if (row_index === 3 && col_index === 3) {
-    alert("NO!");
+  const isDoubledClickedCellInRangeOfDisabledCells = ctx.config.disabledCells
+    ? isCellInRange(row_index, col_index, ctx.config.disabledCells)
+    : false;
+
+  if (isDoubledClickedCellInRangeOfDisabledCells) {
     return;
   }
 

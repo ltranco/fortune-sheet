@@ -11,7 +11,12 @@ import { getdatabyselection, getQKBorder } from "../modules/cell";
 import { genarate, update } from "../modules/format";
 import { selectionCache } from "../modules/selection";
 import { Cell, CellMatrix } from "../types";
-import { getSheetIndex } from "../utils";
+import {
+  getSheetIndex,
+  isCellInRange,
+  rectanglesIntersect,
+  referencedCellFromKeyboardInContext,
+} from "../utils";
 import { hasPartMC, isRealNum } from "../modules/validation";
 import { getBorderInfoCompute } from "../modules/border";
 import { expandRowsAndColumns, storeSheetParamALL } from "../modules/sheet";
@@ -258,6 +263,25 @@ function pasteHandler(ctx: Context, data: any, borderInfo?: any) {
     const minc = ctx.luckysheet_select_save![0].column[0]; // 应用范围首尾列
     const maxc = minc + copyc - 1;
 
+    const isSingleCell = minh === maxh && minc === maxc;
+
+    const disabledRanges = ctx.config.disabledCells || [];
+    const isPasteAreaOverlappingWithDisabledRanges = disabledRanges.find(
+      (range) => {
+        const [r1, r2] = range.row;
+        const [c1, c2] = range.column;
+
+        if (isSingleCell) {
+          return minh >= r1 && minh <= r2 && minc >= c1 && minc <= c2;
+        }
+
+        return rectanglesIntersect(minc, minh, maxc, maxh, c1, r1, c2, r2);
+      }
+    );
+    if (isPasteAreaOverlappingWithDisabledRanges) {
+      return;
+    }
+
     // 应用范围包含部分合并单元格，则return提示
     let has_PartMC = false;
     if (cfg.merge != null) {
@@ -390,6 +414,18 @@ function pasteHandler(ctx: Context, data: any, borderInfo?: any) {
       // selectHightlightShow();
     }
   } else {
+    console.log("not object");
+
+    const [rowIdx, colIdx] = referencedCellFromKeyboardInContext(ctx);
+    if (rowIdx !== undefined && colIdx !== undefined) {
+      const isOverlappingWithDisabledRanges = ctx.config.disabledCells
+        ? isCellInRange(rowIdx, colIdx, ctx.config.disabledCells)
+        : false;
+      if (isOverlappingWithDisabledRanges) {
+        return;
+      }
+    }
+
     data = data.replace(/\r/g, "");
     const dataChe = [];
     const che = data.split("\n");
@@ -1374,22 +1410,11 @@ function pasteHandlerOfCopyPaste(
 }
 
 export function handlePaste(ctx: Context, e: ClipboardEvent) {
-  console.log("handle paste function");
   // if (isEditMode()) {
   //   // 此模式下禁用粘贴
   //   return;
   // }
   if (!ctx.allowEdit) {
-    return;
-  }
-
-  const violating = ctx.luckysheet_select_save?.find(
-    (item) => item.row.includes(3) && item.column.includes(3)
-  );
-  console.log(ctx.luckysheet_select_save?.map((x) => `${x.row} ${x.column}`));
-  console.log(violating);
-  if (violating) {
-    alert("NO!");
     return;
   }
 
@@ -1447,8 +1472,6 @@ export function handlePaste(ctx: Context, e: ClipboardEvent) {
       const copy_r2 = ctx.luckysheet_copy_save.copyRange[0].row[1];
       const copy_c1 = ctx.luckysheet_copy_save.copyRange[0].column[0];
       const copy_c2 = ctx.luckysheet_copy_save.copyRange[0].column[1];
-
-      console.log(ctx);
 
       const copy_index = ctx.luckysheet_copy_save.dataSheetId;
 
@@ -1813,7 +1836,6 @@ export function handlePaste(ctx: Context, e: ClipboardEvent) {
 }
 
 export function handlePasteByClick(ctx: Context, triggerType?: string) {
-  console.log("handle paste click");
   if (!ctx.allowEdit) {
     return;
   }
