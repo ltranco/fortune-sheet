@@ -2471,6 +2471,10 @@ export function handleFormulaInput(
   //   // 此模式下禁用公式栏
   //   return;
   // }
+  if (!$copyTo) {
+    return;
+  }
+
   let value1 = $editor.innerHTML;
   const value1txt = $editor.innerText;
   let value = $editor.innerText;

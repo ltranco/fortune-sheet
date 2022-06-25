@@ -1374,6 +1374,7 @@ function pasteHandlerOfCopyPaste(
 }
 
 export function handlePaste(ctx: Context, e: ClipboardEvent) {
+  console.log("handle paste function");
   // if (isEditMode()) {
   //   // 此模式下禁用粘贴
   //   return;
@@ -1512,11 +1513,16 @@ export function handlePaste(ctx: Context, e: ClipboardEvent) {
 
     const locale_fontjson = locale(ctx).fontjson;
 
-    if (
-      ctx.hooks.beforePaste?.(ctx.luckysheet_select_save, txtdata) === false
-    ) {
+    const beforePasteHookValue = ctx.hooks.beforePaste?.(
+      ctx.luckysheet_select_save,
+      txtdata
+    );
+
+    if (!beforePasteHookValue) {
       return;
     }
+
+    txtdata = beforePasteHookValue;
 
     if (
       txtdata.indexOf("fortune-copy-action-table") > -1 &&
@@ -1807,6 +1813,7 @@ export function handlePaste(ctx: Context, e: ClipboardEvent) {
 }
 
 export function handlePasteByClick(ctx: Context, triggerType?: string) {
+  console.log("handle paste click");
   if (!ctx.allowEdit) {
     return;
   }

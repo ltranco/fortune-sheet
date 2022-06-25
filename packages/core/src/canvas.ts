@@ -129,6 +129,10 @@ export class Canvas {
   }
 
   drawRowHeader(scrollHeight: number, drawHeight?: number, offsetTop?: number) {
+    if (this.sheetCtx.config.rowHeaderHidden) {
+      return;
+    }
+
     if (_.isNil(drawHeight)) {
       [, drawHeight] = this.sheetCtx.luckysheetTableContentHW;
     }
@@ -183,6 +187,12 @@ export class Canvas {
     );
     renderCtx.clip();
 
+    const rowHeaderBgColor = this.sheetCtx.config.rowHeaderBgColor || "#ffffff";
+    const rowHeaderTextColor =
+      this.sheetCtx.config.rowHeaderTextColor || "orange";
+    const rowHeaderBorderColor =
+      this.sheetCtx.config.rowHeaderBorderColor || defaultStyle.strokeStyle;
+
     let end_r;
     let start_r;
     const bodrder05 = 0.5; // Default 0.5
@@ -212,16 +222,15 @@ export class Canvas {
       }
 
       if (this.sheetCtx.config?.rowhidden?.[r] == null) {
-        renderCtx.fillStyle =
-          this.sheetCtx.config.rowHeaderBgColor || "#ffffff";
+        renderCtx.save();
+        renderCtx.fillStyle = rowHeaderBgColor;
         renderCtx.fillRect(
           0,
           start_r + offsetTop + firstOffset,
           this.sheetCtx.rowHeaderWidth - 1,
           end_r - start_r + 1 + lastOffset - firstOffset
         );
-        renderCtx.fillStyle =
-          this.sheetCtx.config.rowHeaderTextColor || "#000000";
+        renderCtx.restore();
 
         // 行标题栏序列号
         renderCtx.save(); // save scale before draw text
@@ -231,6 +240,7 @@ export class Canvas {
         const horizonAlignPos =
           (this.sheetCtx.rowHeaderWidth - textMetrics.width) / 2;
         const verticalAlignPos = start_r + (end_r - start_r) / 2 + offsetTop;
+        renderCtx.fillStyle = rowHeaderTextColor;
 
         renderCtx.fillText(
           `${r + 1}`,
@@ -252,7 +262,7 @@ export class Canvas {
       );
       renderCtx.lineWidth = 1;
 
-      renderCtx.strokeStyle = defaultStyle.strokeStyle;
+      renderCtx.strokeStyle = rowHeaderBorderColor;
       renderCtx.stroke();
       renderCtx.closePath();
 
@@ -321,6 +331,10 @@ export class Canvas {
     drawWidth?: number,
     offsetLeft?: number
   ) {
+    if (this.sheetCtx.config.colHeaderHidden) {
+      return;
+    }
+
     if (drawWidth === undefined) {
       [drawWidth] = this.sheetCtx.luckysheetTableContentHW;
     }
@@ -377,6 +391,12 @@ export class Canvas {
     );
     renderCtx.clip();
 
+    const colHeaderBgColor = this.sheetCtx.config.colHeaderBgColor || "#ffffff";
+    const colHeaderTextColor =
+      this.sheetCtx.config.colHeaderTextColor || "orange";
+    const colHeaderBorderColor =
+      this.sheetCtx.config.colHeaderBorderColor || defaultStyle.strokeStyle;
+
     let end_c;
     let start_c;
     const bodrder05 = 0.5; // Default 0.5
@@ -405,16 +425,13 @@ export class Canvas {
       }
 
       if (this.sheetCtx.config?.colhidden?.[c] == null) {
-        renderCtx.fillStyle =
-          this.sheetCtx.config.colHeaderBgColor || "#ffffff";
+        renderCtx.fillStyle = colHeaderBgColor;
         renderCtx.fillRect(
           start_c + offsetLeft - 1,
           0,
           end_c - start_c,
           this.sheetCtx.columnHeaderHeight - 1
         );
-        renderCtx.fillStyle =
-          this.sheetCtx.config.colHeaderTextColor || "#000000";
 
         // 列标题栏序列号
         renderCtx.save(); // save scale before draw text
@@ -429,6 +446,7 @@ export class Canvas {
           this.sheetCtx.columnHeaderHeight / 2
         );
 
+        renderCtx.fillStyle = colHeaderTextColor;
         renderCtx.fillText(
           abc,
           horizonAlignPos / this.sheetCtx.zoomRatio,
@@ -450,7 +468,7 @@ export class Canvas {
           this.sheetCtx.columnHeaderHeight - 2
         );
         renderCtx.lineWidth = 1;
-        renderCtx.strokeStyle = defaultStyle.strokeStyle;
+        renderCtx.strokeStyle = colHeaderBorderColor;
         renderCtx.closePath();
         renderCtx.stroke();
       } else if (
@@ -465,7 +483,7 @@ export class Canvas {
         );
 
         renderCtx.lineWidth = 1;
-        renderCtx.strokeStyle = defaultStyle.strokeStyle;
+        renderCtx.strokeStyle = colHeaderBorderColor;
         renderCtx.closePath();
         renderCtx.stroke();
       }
@@ -655,7 +673,7 @@ export class Canvas {
     const colEndX = this.sheetCtx.visibledatacolumn[colEnd];
 
     // 表格canvas 初始化处理
-    renderCtx.fillStyle = "#ffffff";
+    renderCtx.fillStyle = this.sheetCtx.config.defaultCellBgColor || "#FFFFFF";
     renderCtx.fillRect(
       offsetLeft - 1,
       offsetTop - 1,
@@ -663,7 +681,8 @@ export class Canvas {
       rowEndY - scrollHeight
     );
     renderCtx.font = defaultFont(this.sheetCtx.defaultFontSize);
-    renderCtx.fillStyle = defaultStyle.fillStyle;
+    renderCtx.fillStyle =
+      this.sheetCtx.config.defaultCellBgColor || defaultStyle.fillStyle;
 
     // 表格渲染区域 非空单元格行列 起止坐标
     const cellupdate: {
@@ -1618,7 +1637,8 @@ export class Canvas {
     // }
 
     if (!fillStyle) {
-      renderCtx.fillStyle = "#FFFFFF";
+      renderCtx.fillStyle =
+        this.sheetCtx.config.defaultCellBgColor || "#FFFFFF";
     } else {
       renderCtx.fillStyle = fillStyle;
     }

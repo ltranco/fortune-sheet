@@ -28,8 +28,8 @@ export type CellStyle = {
   ff?: number | string;
   fs?: number;
   fc?: string;
-  ht?: number;
-  vt?: number;
+  ht?: number | string;
+  vt?: number | string;
   tb?: string;
   cl?: number;
   un?: number;
@@ -104,10 +104,15 @@ export type SheetConfig = {
   customWidth?: Record<string, number>;
   borderInfo?: any[]; // 边框
   authority?: any;
+  rowHeaderHidden?: boolean;
+  colHeaderHidden?: boolean;
   rowHeaderBgColor?: string;
   colHeaderBgColor?: string;
   rowHeaderTextColor?: string;
   colHeaderTextColor?: string;
+  rowHeaderBorderColor?: string;
+  colHeaderBorderColor?: string;
+  defaultCellBgColor?: string;
 };
 
 export type Image = {

@@ -8,12 +8,12 @@
   "license": "MIT",
   "scripts": {
     "dev": "yarn storybook",
-    "build": "node ./scripts/build",
+    "build": "rm -rf dist && node ./scripts/build",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "tsc": "tsc --noEmit",
     "lint": "eslint --cache --ext .js,.jsx,.ts,.tsx ./packages",
-    "publish": "lerna publish --registry 'https://registry.npmjs.org'",
+    "publish": "./publish.sh",
     "test": "jest",
     "coverage": "jest --coverage"
   },

@@ -95,7 +95,7 @@ export type Hooks = {
   beforePaste?: (
     selection: Selection[] | undefined,
     content: string
-  ) => boolean;
+  ) => string | null;
   beforeUpdateComment?: (row: number, column: number, value: any) => boolean;
   afterUpdateComment?: (
     row: number,
