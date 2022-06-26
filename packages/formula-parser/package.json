@@ -1,6 +1,6 @@
 {
   "name": "ltranco-fortune-sheet-formula-parser",
-  "version": "0.2.27",
+  "version": "0.2.28",
   "description": "Formula parser",
   "main": "lib/index.js",
   "module": "es/index.js",

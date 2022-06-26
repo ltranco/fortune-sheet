@@ -686,20 +686,22 @@ export function handleGlobalKeyDown(
       handleArrowKey(ctx, e);
     } else if (
       !(
-        (kcode >= 112 && kcode <= 123) ||
-        kcode <= 46 ||
-        kcode === 144 ||
-        kcode === 108 ||
-        e.ctrlKey ||
-        e.altKey ||
-        (e.shiftKey &&
-          (kcode === 37 || kcode === 38 || kcode === 39 || kcode === 40))
+        (
+          (kcode >= 112 && kcode <= 123) || // F1 -> F12
+          kcode <= 46 || // delete
+          kcode === 144 || // num lock
+          kcode === 108 ||
+          e.ctrlKey ||
+          e.altKey ||
+          (e.shiftKey &&
+            (kcode === 37 || kcode === 38 || kcode === 39 || kcode === 40))
+        ) // arrow keys
       ) ||
-      kcode === 8 ||
-      kcode === 32 ||
-      kcode === 46 ||
-      kcode === 0 ||
-      (e.ctrlKey && kcode === 86)
+      kcode === 8 || // backspace
+      kcode === 32 || // space
+      kcode === 46 || // delete
+      kcode === 0 || // unrecognized
+      (e.ctrlKey && kcode === 86) // ctrl + v
     ) {
       if (!ctx.allowEdit) return;
       if (
@@ -707,7 +709,7 @@ export function handleGlobalKeyDown(
         !_.isEmpty(ctx.luckysheet_select_save) && // $("#luckysheet-cell-selected").is(":visible") &&
         kstr !== "CapsLock" &&
         kstr !== "Win" &&
-        kcode !== 18
+        kcode !== 18 // alt
       ) {
         // 激活输入框，并将按键输入到输入框
         const last =
@@ -715,6 +717,14 @@ export function handleGlobalKeyDown(
 
         const row_index = last.row_focus;
         const col_index = last.column_focus;
+
+        if (
+          row_index !== undefined &&
+          col_index !== undefined &&
+          isCellInRange(row_index, col_index, ctx.config.disabledCells || [])
+        ) {
+          return;
+        }
 
         ctx.luckysheetCellUpdate = [row_index, col_index];
         cache.overwriteCell = true;
