@@ -27,6 +27,13 @@ export function handleGlobalEnter(
   cellInput: HTMLDivElement,
   e: KeyboardEvent
 ) {
+  const [rowIdx, colIdx] = referencedCellFromKeyboardInContext(ctx);
+  if (rowIdx !== undefined && colIdx !== undefined) {
+    if (isCellInRange(rowIdx, colIdx, ctx.config.disabledCells || [])) {
+      return;
+    }
+  }
+
   // const flowdata = getFlowdata(ctx);
   if ((e.altKey || e.metaKey) && ctx.luckysheetCellUpdate.length > 0) {
     const last =
@@ -105,40 +112,40 @@ function handleBatchSelectionWithArrowKey(ctx: Context, e: KeyboardEvent) {
     return;
   }
 
-  const last = referencedSelectionFromKeyboardInContext(ctx);
-  const [r1, r2] = last.row;
-  const [c1, c2] = last.column;
-  const rowIndex = last.row_focus;
-  const colIndex = last.column_focus;
+  // const last = referencedSelectionFromKeyboardInContext(ctx);
+  // const [r1, r2] = last.row;
+  // const [c1, c2] = last.column;
+  // const rowIndex = last.row_focus;
+  // const colIndex = last.column_focus;
 
-  const rowCount = ctx.luckysheetfile[0]?.row || 0;
-  const colCount = ctx.luckysheetfile[0]?.column || 0;
+  // const rowCount = ctx.luckysheetfile[0]?.row || 0;
+  // const colCount = ctx.luckysheetfile[0]?.column || 0;
 
-  if (rowIndex === undefined || colIndex === undefined) {
-    return;
-  }
+  // if (rowIndex === undefined || colIndex === undefined) {
+  //   return;
+  // }
 
-  let newStartingRow = r1;
-  let newStartingCol = c1;
-  let newEndingRow = r2;
-  let newEndingCol = c2;
+  // let newStartingRow = r1;
+  // let newStartingCol = c1;
+  // let newEndingRow = r2;
+  // let newEndingCol = c2;
 
-  switch (e.key) {
-    case "ArrowUp":
-      newStartingRow = 0;
-      break;
-    case "ArrowDown":
-      newEndingRow = rowCount;
-      break;
-    case "ArrowLeft":
-      newStartingCol = 0;
-      break;
-    case "ArrowRight":
-      newEndingCol = colCount;
-      break;
-    default:
-      break;
-  }
+  // switch (e.key) {
+  //   case "ArrowUp":
+  //     newStartingRow = 0;
+  //     break;
+  //   case "ArrowDown":
+  //     newEndingRow = rowCount;
+  //     break;
+  //   case "ArrowLeft":
+  //     newStartingCol = 0;
+  //     break;
+  //   case "ArrowRight":
+  //     newEndingCol = colCount;
+  //     break;
+  //   default:
+  //     break;
+  // }
 
   // ctx.luckysheet_select_save = [
   //   {
