@@ -214,3 +214,25 @@ export function rectanglesIntersect(
 
   return !(aLeftOfB || aRightOfB || aAboveB || aBelowB);
 }
+
+export const shouldDisablePasteOnSingleSelection = (ctx: Context): boolean => {
+  const selection = referencedSelectionFromKeyboardInContext(ctx);
+  const [r1, r2] = selection.row;
+  const [c1, c2] = selection.column;
+
+  const isSingleCell = r1 === r2 && c1 === c2;
+  if (isSingleCell) {
+    const overlap = ctx.luckysheet_select_save?.find((range) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const [r, rr] = range.row;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const [c, cc] = range.column;
+
+      return isCellInRange(r, c, ctx.config.disabledCells || []);
+    });
+
+    return overlap !== undefined;
+  }
+
+  return false;
+};

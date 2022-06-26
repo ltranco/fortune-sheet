@@ -296,6 +296,7 @@ const InputBox: React.FC = () => {
           onChange={onChange}
           onKeyDown={onKeyDown}
           onPaste={onPaste}
+          inputMode="decimal"
         />
       </div>
       {document.activeElement === inputRef.current && (

@@ -1189,34 +1189,34 @@ lru-cache@^6.0.0:
   dependencies:
     yallist "^4.0.0"
 
-ltranco-fortune-sheet-core@^0.2.19:
-  version "0.2.19"
-  resolved "https://registry.yarnpkg.com/ltranco-fortune-sheet-core/-/ltranco-fortune-sheet-core-0.2.19.tgz#e63557c57c7b0a41f4bddf63dd75412080415e93"
-  integrity sha512-pN7tQJBszBrgwn0r0hh+hlg0ZxVJWr0RebZk4z/uz9fWQ1Wy8llny62uIXLh+Ei7lYNaAs+98em3+vm24aG1mg==
+ltranco-fortune-sheet-core@^0.2.24:
+  version "0.2.24"
+  resolved "https://registry.yarnpkg.com/ltranco-fortune-sheet-core/-/ltranco-fortune-sheet-core-0.2.24.tgz#7e3abb8d1c0a299c9ca1e7dab3e80206b66a41a1"
+  integrity sha512-rjmrn+zjPh29JY9qw2B/P9hpTrlsYdrOwuC8ZY7CM/KU9I0V8C0st093BkWHykEhAZh3amnisk8zYN32hACxoQ==
   dependencies:
     dayjs "^1.11.0"
     immer "^9.0.12"
     lodash "^4.17.21"
-    ltranco-fortune-sheet-formula-parser "^0.2.19"
+    ltranco-fortune-sheet-formula-parser "^0.2.24"
     numeral "^2.0.6"
     uuid "^8.3.2"
 
-ltranco-fortune-sheet-formula-parser@^0.2.19:
-  version "0.2.19"
-  resolved "https://registry.yarnpkg.com/ltranco-fortune-sheet-formula-parser/-/ltranco-fortune-sheet-formula-parser-0.2.19.tgz#1fb4aa0c65d1b10928f15dc6b6ca66324078271e"
-  integrity sha512-/DppRmDVIN+bS5u8g6ETad3TcWQ8SyUwJjRlfx16hNna3ddB8OQpAZbGSB100THaxe5DgajgYizBRAWVEvHt9w==
+ltranco-fortune-sheet-formula-parser@^0.2.24:
+  version "0.2.24"
+  resolved "https://registry.yarnpkg.com/ltranco-fortune-sheet-formula-parser/-/ltranco-fortune-sheet-formula-parser-0.2.24.tgz#480137ec27dcf2877f3c78b66bf33abe856ed49a"
+  integrity sha512-FxtoH2LehN8g7rk+bIMNFcPSy15Z2uV2uI3PbZG1E1OarhIYf3FqQeZ40k4facep8ymoOrw5Ehcby05tv7X9IQ==
   dependencies:
     "@formulajs/formulajs" "^2.9.3"
     tiny-emitter "^2.1.0"
 
-ltranco-fortune-sheet-react@^0.2.19:
-  version "0.2.19"
-  resolved "https://registry.yarnpkg.com/ltranco-fortune-sheet-react/-/ltranco-fortune-sheet-react-0.2.19.tgz#6e882c1d156a6dde660e9154a20279f3020baeba"
-  integrity sha512-vn/tkN6Mbn94kXpB67corM4OfKadY2MPwlhtOBus3vmtBZlY+bon2wC4wozvurYNJ8aAOog8lX0J7xYMouc1og==
+ltranco-fortune-sheet-react@^0.2.24:
+  version "0.2.24"
+  resolved "https://registry.yarnpkg.com/ltranco-fortune-sheet-react/-/ltranco-fortune-sheet-react-0.2.24.tgz#c0b6d5aa4d560fdec44217afb2d2d746a6ec67f7"
+  integrity sha512-zOeFrw1NUd/6VRvcvC2cqfA7DZNmFQy2JN7cQ2xmv3OXbhxdU8VFR/aikDf0AKIYfco9IIGWzYf/s4xTozML6g==
   dependencies:
     immer "^9.0.12"
     lodash "^4.17.21"
-    ltranco-fortune-sheet-core "^0.2.19"
+    ltranco-fortune-sheet-core "^0.2.24"
 
 merge2@^1.3.0, merge2@^1.4.1:
   version "1.4.1"

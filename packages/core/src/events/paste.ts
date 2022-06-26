@@ -16,6 +16,7 @@ import {
   isCellInRange,
   rectanglesIntersect,
   referencedCellFromKeyboardInContext,
+  shouldDisablePasteOnSingleSelection,
 } from "../utils";
 import { hasPartMC, isRealNum } from "../modules/validation";
 import { getBorderInfoCompute } from "../modules/border";
@@ -241,6 +242,18 @@ function pasteHandler(ctx: Context, data: any, borderInfo?: any) {
     return;
   }
 
+  console.log(
+    `pasting for ${ctx.luckysheet_select_save?.map((range) => {
+      const [x, y] = range.row;
+      const [a, b] = range.column;
+      return `r1:${x} r2:${y} c1:${a} c2:${b} row_focus:${range.row_focus} col_focus:${range.column_focus}`;
+    })}`
+  );
+
+  if (shouldDisablePasteOnSingleSelection(ctx)) {
+    return;
+  }
+
   if (typeof data === "object") {
     if (data.length === 0) {
       return;
@@ -263,17 +276,11 @@ function pasteHandler(ctx: Context, data: any, borderInfo?: any) {
     const minc = ctx.luckysheet_select_save![0].column[0]; // 应用范围首尾列
     const maxc = minc + copyc - 1;
 
-    const isSingleCell = minh === maxh && minc === maxc;
-
     const disabledRanges = ctx.config.disabledCells || [];
     const isPasteAreaOverlappingWithDisabledRanges = disabledRanges.find(
       (range) => {
         const [r1, r2] = range.row;
         const [c1, c2] = range.column;
-
-        if (isSingleCell) {
-          return minh >= r1 && minh <= r2 && minc >= c1 && minc <= c2;
-        }
 
         return rectanglesIntersect(minc, minh, maxc, maxh, c1, r1, c2, r2);
       }
@@ -414,8 +421,6 @@ function pasteHandler(ctx: Context, data: any, borderInfo?: any) {
       // selectHightlightShow();
     }
   } else {
-    console.log("not object");
-
     const [rowIdx, colIdx] = referencedCellFromKeyboardInContext(ctx);
     if (rowIdx !== undefined && colIdx !== undefined) {
       const isOverlappingWithDisabledRanges = ctx.config.disabledCells
@@ -550,6 +555,30 @@ function pasteHandlerOfCutPaste(
     return;
   }
   if (!copyRange) return;
+
+  console.log(
+    `pasting pasteHandlerOfCutPaste for ${ctx.luckysheet_select_save?.map(
+      (range) => {
+        const [x, y] = range.row;
+        const [a, b] = range.column;
+        return `r1:${x} r2:${y} c1:${a} c2:${b} row_focus:${range.row_focus} col_focus:${range.column_focus}`;
+      }
+    )}`
+  );
+
+  if (shouldDisablePasteOnSingleSelection(ctx)) {
+    return;
+  }
+
+  const [rowIdx, colIdx] = referencedCellFromKeyboardInContext(ctx);
+  if (rowIdx !== undefined && colIdx !== undefined) {
+    const isOverlappingWithDisabledRanges = ctx.config.disabledCells
+      ? isCellInRange(rowIdx, colIdx, ctx.config.disabledCells)
+      : false;
+    if (isOverlappingWithDisabledRanges) {
+      return;
+    }
+  }
 
   const cfg = ctx.config || {};
   if (cfg.merge == null) {
@@ -1049,6 +1078,30 @@ function pasteHandlerOfCopyPaste(
     return;
   }
   if (!copyRange) return;
+
+  console.log(
+    `pasting pasteHandlerOfCopyPaste for ${ctx.luckysheet_select_save?.map(
+      (range) => {
+        const [x, y] = range.row;
+        const [a, b] = range.column;
+        return `r1:${x} r2:${y} c1:${a} c2:${b} row_focus:${range.row_focus} col_focus:${range.column_focus}`;
+      }
+    )}`
+  );
+
+  if (shouldDisablePasteOnSingleSelection(ctx)) {
+    return;
+  }
+
+  const [rowIdx, colIdx] = referencedCellFromKeyboardInContext(ctx);
+  if (rowIdx !== undefined && colIdx !== undefined) {
+    const isOverlappingWithDisabledRanges = ctx.config.disabledCells
+      ? isCellInRange(rowIdx, colIdx, ctx.config.disabledCells)
+      : false;
+    if (isOverlappingWithDisabledRanges) {
+      return;
+    }
+  }
 
   const cfg = ctx.config;
   if (_.isNil(cfg.merge)) {
